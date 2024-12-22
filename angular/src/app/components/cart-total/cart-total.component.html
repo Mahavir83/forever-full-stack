@@ -1,0 +1,25 @@
+<div class="w-full">
+  <div class="text-2xl">
+    <app-title [text1]="'CART'" [text2]="'TOTALS'"></app-title>
+  </div>
+
+  <div class="flex flex-col gap-2 mt-2 text-sm">
+    <div class="flex justify-between">
+      <p>Subtotal</p>
+      <p>{{ currency }} {{ cartAmount }}.00</p>
+    </div>
+    <hr />
+    <div class="flex justify-between">
+      <p>Shipping Fee</p>
+      <p>{{ currency }} {{ delivery_fee }}.00</p>
+    </div>
+    <hr />
+    <div class="flex justify-between">
+      <b>Total</b>
+      <b
+        >{{ currency }}
+        {{ cartAmount === 0 ? 0 : cartAmount + delivery_fee }}.00</b
+      >
+    </div>
+  </div>
+</div>

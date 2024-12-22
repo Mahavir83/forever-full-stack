@@ -1,0 +1,101 @@
+<div class="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
+  <div class="min-w-60">
+    <p class="my-2 text-xl flex items-center cursor-pointer gap-2">FILTERS</p>
+
+    <!-- Category Filter -->
+    <div class="border border-gray-300 pl-5 py-3 mt-6 sm:block">
+      <p class="mb-3 text-sm font-medium">CATEGORIES</p>
+      <div class="flex flex-col gap-2 text-sm font-light text-gray-700">
+        <p class="flex gap-2">
+          <input
+            class="w-3"
+            type="checkbox"
+            value="Men"
+            (change)="toggleCategory($event)"
+          />
+          Men
+        </p>
+        <p class="flex gap-2">
+          <input
+            class="w-3"
+            type="checkbox"
+            value="Women"
+            (change)="toggleCategory($event)"
+          />
+          Women
+        </p>
+        <p class="flex gap-2">
+          <input
+            class="w-3"
+            type="checkbox"
+            value="Kids"
+            (change)="toggleCategory($event)"
+          />
+          Kids
+        </p>
+      </div>
+    </div>
+
+    <!-- SubCategory Filter -->
+    <div class="border border-gray-300 pl-5 py-3 my-5 sm:block">
+      <p class="mb-3 text-sm font-medium">TYPE</p>
+      <div class="flex flex-col gap-2 text-sm font-light text-gray-700">
+        <p class="flex gap-2">
+          <input
+            class="w-3"
+            type="checkbox"
+            value="Topwear"
+            (change)="toggleSubCategory($event)"
+          />
+          Topwear
+        </p>
+        <p class="flex gap-2">
+          <input
+            class="w-3"
+            type="checkbox"
+            value="Bottomwear"
+            (change)="toggleSubCategory($event)"
+          />
+          Bottomwear
+        </p>
+        <p class="flex gap-2">
+          <input
+            class="w-3"
+            type="checkbox"
+            value="Winterwear"
+            (change)="toggleSubCategory($event)"
+          />
+          Winterwear
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="flex-1">
+    <div class="flex justify-between text-base sm:text-2xl mb-4">
+      <!-- Title Component -->
+      <app-title [text1]="'ALL'" [text2]="'COLLECTIONS'"></app-title>
+
+      <!-- Product Sort -->
+      <select
+        (change)="sortProduct($event)"
+        class="border-2 border-gray-300 text-sm px-2"
+      >
+        <option value="relavent">Sort by: Relavent</option>
+        <option value="low-high">Sort by: Low to High</option>
+        <option value="high-low">Sort by: High to Low</option>
+      </select>
+    </div>
+
+    <!-- Map Products -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
+      <app-product-item
+        *ngFor="let item of filterProducts; let i = index"
+        [name]="item.name"
+        [id]="item._id"
+        [price]="item.price"
+        [image]="item.image"
+      >
+      </app-product-item>
+    </div>
+  </div>
+</div>
