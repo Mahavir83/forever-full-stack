@@ -1,0 +1,187 @@
+<div class="border-t pt-14">
+  <div class="text-2xl mb-3">
+    <app-title [text1]="'YOUR'" [text2]="'CART'"></app-title>
+  </div>
+
+  <div *ngFor="let item of cartItems; let i = index">
+    <div
+      class="py-4 border-t border-b text-gray-700 grid grid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4"
+    >
+      <div class="flex items-start gap-6">
+        <img class="w-16 sm:w-20" [src]="item.image[0]" alt="" />
+        <div>
+          <p class="text-xs sm:text-lg font-medium">
+            {{ item.name }}
+          </p>
+          <div class="flex items-center gap-5 mt-2">
+            <p>${{ item.price }}</p>
+            <p class="px-2 sm:px-3 sm:py-1 border bg-slate-50">
+              {{ getProductSize(item) }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <input
+        class="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"
+        type="number"
+        min="1"
+        [value]="getProductQuantity(item)"
+        (change)="handleChangeQuantity($event, item)"
+      />
+      <img
+        class="w-4 mr-4 sm:w-5 cursor-pointer"
+        src="../../../assets/images/bin_icon.png"
+        alt=""
+      />
+    </div>
+  </div>
+
+  <div class="grid lg:grid-cols-2 my-20">
+    <div>
+      <!-- delivery-form.component.html -->
+      <form
+        [formGroup]="formData"
+        class="flex flex-col sm:flex-row justify-between gap-4 min-h-[80vh]"
+      >
+        <div class="flex flex-col gap-4 w-full md:max-w-[480px]">
+          <div class="text-xl sm:text-2xl">
+            <app-title [text1]="'DELIVERY'" [text2]="'INFORMATION'"></app-title>
+          </div>
+          <div class="flex gap-3">
+            <input
+              formControlName="firstName"
+              class="border border-gray-300 rounded py-1.5 px-3.5 w-full"
+              type="text"
+              placeholder="First name"
+            />
+            <input
+              formControlName="lastName"
+              class="border border-gray-300 rounded py-1.5 px-3.5 w-full"
+              type="text"
+              placeholder="Last name"
+            />
+          </div>
+          <input
+            formControlName="email"
+            class="border border-gray-300 rounded py-1.5 px-3.5 w-full"
+            type="email"
+            placeholder="Email address"
+          />
+          <input
+            formControlName="street"
+            class="border border-gray-300 rounded py-1.5 px-3.5 w-full"
+            type="text"
+            placeholder="Street"
+          />
+          <div class="flex gap-3">
+            <input
+              formControlName="city"
+              class="border border-gray-300 rounded py-1.5 px-3.5 w-full"
+              type="text"
+              placeholder="City"
+            />
+            <input
+              formControlName="state"
+              class="border border-gray-300 rounded py-1.5 px-3.5 w-full"
+              type="text"
+              placeholder="State"
+            />
+          </div>
+          <div class="flex gap-3">
+            <input
+              formControlName="zipcode"
+              class="border border-gray-300 rounded py-1.5 px-3.5 w-full"
+              type="number"
+              placeholder="Zipcode"
+            />
+            <input
+              formControlName="country"
+              class="border border-gray-300 rounded py-1.5 px-3.5 w-full"
+              type="text"
+              placeholder="Country"
+            />
+          </div>
+          <input
+            formControlName="phone"
+            class="border border-gray-300 rounded py-1.5 px-3.5 w-full"
+            type="number"
+            placeholder="Phone"
+          />
+        </div>
+      </form>
+    </div>
+    <div class="w-full sm:w-[450px]">
+      <!-- <app-cart-total [cartItems]="cartItems" [cart]="cart"></app-cart-total> -->
+      <div class="w-full">
+        <div class="text-2xl">
+          <app-title [text1]="'CART'" [text2]="'TOTALS'"></app-title>
+        </div>
+
+        <div class="flex flex-col gap-2 mt-2 text-sm">
+          <div class="flex justify-between">
+            <p>Subtotal</p>
+            <p>{{ currency }} {{ cartAmount }}.00</p>
+          </div>
+          <hr />
+          <div class="flex justify-between">
+            <p>Shipping Fee</p>
+            <p>{{ currency }} {{ delivery_fee }}.00</p>
+          </div>
+          <hr />
+          <div class="flex justify-between">
+            <b>Total</b>
+            <b
+              >{{ currency }}
+              {{ cartAmount === 0 ? 0 : cartAmount + delivery_fee }}.00</b
+            >
+          </div>
+        </div>
+      </div>
+      <div class="mt-12">
+        <app-title [text1]="'PAYMENT'" [text2]="'METHOD'"></app-title>
+        <div class="flex gap-3 flex-col lg:flex-row">
+          <div
+            (click)="setMethod('stripe')"
+            class="flex items-center gap-3 border p-2 px-3 cursor-pointer"
+          >
+            <p
+              [ngClass]="{
+                'min-w-3.5 h-3.5 border rounded-full': true,
+                'bg-green-400': method === 'stripe'
+              }"
+            ></p>
+            <img
+              class="h-5 mx-4"
+              src="../../../assets/images/stripe_logo.png"
+              alt="Stripe logo"
+            />
+          </div>
+          <div
+            (click)="setMethod('cod')"
+            class="flex items-center gap-3 border p-2 px-3 cursor-pointer"
+          >
+            <p
+              [ngClass]="{
+                'min-w-3.5 h-3.5 border rounded-full': true,
+                'bg-green-400': method === 'cod'
+              }"
+            ></p>
+            <p class="text-gray-500 text-sm font-medium mx-4">
+              CASH ON DELIVERY
+            </p>
+          </div>
+        </div>
+
+        <div class="w-full text-end mt-8">
+          <button
+            type="submit"
+            class="bg-black text-white px-16 py-3 text-sm"
+            (click)="onSubmit()"
+          >
+            PLACE ORDER
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="text-gray-700 cursor-pointer" (click)="navigateToProduct()">
+  <div class="overflow-hidden">
+    <!-- Image with hover effect -->
+    <img
+      [src]="image[0]"
+      alt="Product Image"
+      class="hover:scale-110 transition ease-in-out"
+    />
+  </div>
+  <p class="pt-3 pb-1 text-sm">{{ name }}</p>
+  <p class="text-sm font-medium">{{ currency }}{{ price }}</p>
+</div>

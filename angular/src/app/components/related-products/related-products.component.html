@@ -1,0 +1,21 @@
+<div class="my-24">
+  <!-- Title Component for 'RELATED PRODUCTS' -->
+  <div class="text-center text-3xl py-2">
+    <app-title [text1]="'RELATED'" [text2]="'PRODUCTS'"></app-title>
+  </div>
+
+  <!-- Grid Layout for Products -->
+  <div
+    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6"
+  >
+    <div *ngFor="let item of products; let i = index">
+      <app-product-item
+        [id]="item._id"
+        [name]="item.name"
+        [price]="item.price"
+        [image]="item.image"
+      >
+      </app-product-item>
+    </div>
+  </div>
+</div>

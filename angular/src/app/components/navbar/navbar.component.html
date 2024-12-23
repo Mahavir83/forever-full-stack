@@ -1,0 +1,106 @@
+<div class="flex items-center justify-between py-5 font-medium">
+  <a href="/" class="flex items-center">
+    <img src="../../../assets/images/logo.png" class="w-36" alt="" />
+  </a>
+
+  <ul *ngIf="token" class="hidden sm:flex gap-5 text-sm text-gray-700">
+    <li *ngFor="let link of navLinks" class="flex flex-col items-center gap-1">
+      <a
+        [routerLink]="link.path"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="flex flex-col items-center gap-1"
+      >
+        <p>{{ link.label }}</p>
+        <hr class="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+      </a>
+    </li>
+  </ul>
+
+  <div *ngIf="token" class="flex items-center gap-6">
+    <img
+      (click)="onSearchClick()"
+      src="../../../assets/images/search_icon.png"
+      class="w-5 cursor-pointer"
+      alt=""
+    />
+
+    <a href="/cart" class="relative">
+      <img
+        src="../../../assets/images/cart_icon.png"
+        class="w-5 min-w-5"
+        alt=""
+      />
+      <p
+        *ngIf="cartItems"
+        class="absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[8px]"
+      >
+        {{ cartItems }}
+      </p>
+    </a>
+
+    <img
+      (click)="toggleSidebar()"
+      src="../../../assets/images/menu_icon.png"
+      class="w-5 cursor-pointer sm:hidden"
+      alt=""
+    />
+    <div class="group relative">
+      <img
+        (click)="onProfileClick()"
+        class="w-5 cursor-pointer"
+        src="../../../assets/images/profile_icon.png"
+        alt=""
+      />
+      <!-- Dropdown Menu -->
+      <div
+        *ngIf="token"
+        class="group-hover:block hidden absolute dropdown-menu right-0 pt-4"
+      >
+        <div
+          class="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded"
+        >
+          <p class="cursor-pointer hover:text-black">My Profile</p>
+          <p
+            (click)="navigateToOrders()"
+            class="cursor-pointer hover:text-black"
+          >
+            Orders
+          </p>
+          <p (click)="logout()" class="cursor-pointer hover:text-black">
+            Logout
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar menu for small screens -->
+  <div
+    [ngClass]="{ 'w-full': visible, 'w-0': !visible }"
+    class="absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all"
+  >
+    <div class="flex flex-col text-gray-600">
+      <div
+        (click)="toggleSidebar()"
+        class="flex items-center gap-4 p-3 cursor-pointer"
+      >
+        <img
+          class="h-4 rotate-180"
+          src="../../../assets/images/dropdown_icon.png"
+          alt=""
+        />
+        <p>Back</p>
+      </div>
+
+      <a
+        *ngFor="let link of navLinks"
+        (click)="toggleSidebar()"
+        [routerLink]="link.path"
+        class="py-2 pl-6 border"
+      >
+        {{ link.label }}
+      </a>
+    </div>
+  </div>
+</div>
