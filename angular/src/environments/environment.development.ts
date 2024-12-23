@@ -1,4 +1,4 @@
 export const environment = {
-  BACKEND_URL: 'http://localhost:4000',
+  BACKEND_URL: 'https://forever-backend-ten-peach.vercel.app',
   currency: '$',
 };
