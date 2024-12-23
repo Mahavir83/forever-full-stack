@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 export class ApiService {
   constructor(private http: HttpClient) {}
 
-  public BACKEND_URL = 'http://localhost:4000';
+  public BACKEND_URL = environment.BACKEND_URL;
   public headers = new HttpHeaders({
     'Content-Type': 'application/json',
     Authorization: localStorage.getItem('token')!,
