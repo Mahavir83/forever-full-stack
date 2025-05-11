@@ -13,13 +13,19 @@ const Cart = () => {
   useEffect(() => {
     if (products.length > 0) {
       const tempData = [];
-      for (const items in cartItems) {
-        for (const item in cartItems[items]) {
-          if (cartItems[items][item] > 0) {
+
+      const itemIds = Object.keys(cartItems);
+      for (const id of itemIds) {
+        const sizes = cartItems[id];
+
+        const sizeKeys = Object.keys(sizes);
+        for (const size of sizeKeys) {
+          const quantity = sizes[size];
+          if (quantity > 0) {
             tempData.push({
-              _id: items,
-              size: item,
-              quantity: cartItems[items][item],
+              _id: id,
+              size: size,
+              quantity: quantity,
             });
           }
         }

@@ -14,6 +14,7 @@ const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const addToCart = async (itemId, size) => {
@@ -22,28 +23,30 @@ const ShopContextProvider = (props) => {
       return;
     }
 
-    let cartData = structuredClone(cartItems);
-
-    if (cartData[itemId]) {
-      if (cartData[itemId][size]) {
-        cartData[itemId][size] += 1;
-      } else {
-        cartData[itemId][size] = 1;
-      }
-    } else {
-      cartData[itemId] = {};
-      cartData[itemId][size] = 1;
-    }
-    setCartItems(cartData);
-
     if (token) {
+      setIsLoading(true);
       try {
         await axios.post(
           backendUrl + "/api/cart/add",
           { itemId, size },
           { headers: { token } }
         );
+        setIsLoading(false);
+        let cartData = structuredClone(cartItems) ?? {};
+        if (cartData && cartData[itemId]) {
+          if (cartData[itemId][size]) {
+            cartData[itemId][size] += 1;
+          } else {
+            cartData[itemId][size] = 1;
+          }
+        } else {
+          cartData[itemId] = {};
+          cartData[itemId][size] = 1;
+        }
+        setCartItems(cartData);
+        toast.success("Item added to the cart successfully");
       } catch (error) {
+        setIsLoading(false);
         console.log(error);
         toast.error(error.message);
       }
@@ -76,12 +79,15 @@ const ShopContextProvider = (props) => {
 
     if (token) {
       try {
+        setIsLoading(true);
         await axios.post(
           backendUrl + "/api/cart/update",
           { itemId, size, quantity },
           { headers: { token } }
         );
+        setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
         console.log(error);
         toast.error(error.message);
       }
@@ -108,13 +114,16 @@ const ShopContextProvider = (props) => {
 
   const getProductsData = async () => {
     try {
+      setIsLoading(true);
       const response = await axios.get(backendUrl + "/api/product/list");
+      setIsLoading(false);
       if (response.data.success) {
         setProducts(response.data.products.reverse());
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
       toast.error(error.message);
     }
@@ -122,15 +131,18 @@ const ShopContextProvider = (props) => {
 
   const getUserCart = async (token) => {
     try {
+      setIsLoading(true);
       const response = await axios.post(
         backendUrl + "/api/cart/get",
         {},
         { headers: { token } }
       );
+      setIsLoading(false);
       if (response.data.success) {
-        setCartItems(response.data.cartData);
+        setCartItems(response.data.cart);
       }
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
       toast.error(error.message);
     }
@@ -168,9 +180,11 @@ const ShopContextProvider = (props) => {
     backendUrl,
     setToken,
     token,
+    isLoading,
   };
 
   return (
+    // eslint-disable-next-line react/prop-types
     <ShopContext.Provider value={value}>{props.children}</ShopContext.Provider>
   );
 };

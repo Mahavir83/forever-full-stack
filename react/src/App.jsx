@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Collection from "./pages/Collection";
@@ -16,28 +16,38 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Verify from "./pages/Verify";
 import CustomRoutes from "./custom-components/CustomRoutes";
+import Loader from "./custom-components/Loader";
+import { ShopContext } from "./context/ShopContext";
 
 const App = () => {
+  const { isLoading } = useContext(ShopContext);
+
   return (
     <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
       <ToastContainer />
       <Navbar />
       <SearchBar />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route element={<CustomRoutes />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/collection" element={<Collection />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/product/:productId" element={<Product />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/place-order" element={<PlaceOrder />} />
-          <Route path="/orders" element={<Orders />} />
-          <Route path="/verify" element={<Verify />} />
-        </Route>
-      </Routes>
-      <Footer />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route element={<CustomRoutes />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/collection" element={<Collection />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/product/:productId" element={<Product />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/place-order" element={<PlaceOrder />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/verify" element={<Verify />} />
+            </Route>
+          </Routes>
+          <Footer />
+        </>
+      )}
     </div>
   );
 };
