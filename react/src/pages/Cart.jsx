@@ -3,6 +3,7 @@ import { ShopContext } from "../context/ShopContext";
 import Title from "../components/Title";
 import { assets } from "../assets/assets";
 import CartTotal from "../components/CartTotal";
+import empty_cart from "../assets/empty_cart.png";
 
 const Cart = () => {
   const { products, currency, cartItems, updateQuantity, navigate } =
@@ -34,7 +35,11 @@ const Cart = () => {
     }
   }, [cartItems, products]);
 
-  return (
+  return cartData.length === 0 ? (
+    <div className="flex justify-center align-center mt-10">
+      <img src={empty_cart} alt="" height="250px" width="250px" />
+    </div>
+  ) : (
     <div className="border-t pt-14">
       <div className=" text-2xl mb-3">
         <Title text1={"YOUR"} text2={"CART"} />
