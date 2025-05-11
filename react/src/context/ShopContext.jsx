@@ -47,7 +47,6 @@ const ShopContextProvider = (props) => {
         toast.success("Item added to the cart successfully");
       } catch (error) {
         setIsLoading(false);
-        console.log(error);
         toast.error(error.message);
       }
     }
@@ -62,7 +61,6 @@ const ShopContextProvider = (props) => {
             totalCount += cartItems[items][item];
           }
         } catch (error) {
-          console.log(error);
           toast.error(error.message);
         }
       }
@@ -88,7 +86,6 @@ const ShopContextProvider = (props) => {
         setIsLoading(false);
       } catch (error) {
         setIsLoading(false);
-        console.log(error);
         toast.error(error.message);
       }
     }
@@ -104,7 +101,6 @@ const ShopContextProvider = (props) => {
             totalAmount += itemInfo.price * cartItems[items][item];
           }
         } catch (error) {
-          console.log(error);
           toast.error(error.message);
         }
       }
@@ -124,7 +120,6 @@ const ShopContextProvider = (props) => {
       }
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
       toast.error(error.message);
     }
   };
@@ -143,7 +138,6 @@ const ShopContextProvider = (props) => {
       }
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
       toast.error(error.message);
     }
   };
